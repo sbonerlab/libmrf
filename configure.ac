@@ -1,7 +1,7 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.67])
+AC_PREREQ([2.59])
 AC_INIT([libmrf], [1.0.0], [david.chen@yale.edu])
 AC_CONFIG_SRCDIR([lib/mrf/mrf.c])
 AC_CONFIG_MACRO_DIR([m4])
