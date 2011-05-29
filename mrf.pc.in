@@ -1,0 +1,12 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: @PACKAGE_NAME@
+Description: The Mapped Read Format library.
+Version: @PACKAGE_VERSION@
+URL: @PACKAGE_URL@
+Requires.private: gsl bios
+Cflags: -I${includedir}
+Libs: -L${libdir}

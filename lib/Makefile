@@ -75,19 +75,35 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 libmrf_la_DEPENDENCIES =
 am_libmrf_la_OBJECTS = mrf.lo mrfUtil.lo sam.lo segmentationUtil.lo
 libmrf_la_OBJECTS = $(am_libmrf_la_OBJECTS)
+AM_V_lt = $(am__v_lt_$(V))
+am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
+am__v_lt_0 = --silent
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) \
+	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+	$(AM_CFLAGS) $(CFLAGS)
+AM_V_CC = $(am__v_CC_$(V))
+am__v_CC_ = $(am__v_CC_$(AM_DEFAULT_VERBOSITY))
+am__v_CC_0 = @echo "  CC    " $@;
+AM_V_at = $(am__v_at_$(V))
+am__v_at_ = $(am__v_at_$(AM_DEFAULT_VERBOSITY))
+am__v_at_0 = @
 CCLD = $(CC)
-LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
-	$(LDFLAGS) -o $@
+LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_CCLD = $(am__v_CCLD_$(V))
+am__v_CCLD_ = $(am__v_CCLD_$(AM_DEFAULT_VERBOSITY))
+am__v_CCLD_0 = @echo "  CCLD  " $@;
+AM_V_GEN = $(am__v_GEN_$(V))
+am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
+am__v_GEN_0 = @echo "  GEN   " $@;
 SOURCES = $(libmrf_la_SOURCES)
 DIST_SOURCES = $(libmrf_la_SOURCES)
 HEADERS = $(nobase_dist_include_HEADERS)
@@ -96,6 +112,7 @@ CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = ${SHELL} /home/dzc/Work/bioinfo/libmrf/missing --run aclocal-1.11
 AMTAR = ${SHELL} /home/dzc/Work/bioinfo/libmrf/missing --run tar
+AM_DEFAULT_VERBOSITY = 0
 AR = ar
 AUTOCONF = ${SHELL} /home/dzc/Work/bioinfo/libmrf/missing --run autoconf
 AUTOHEADER = ${SHELL} /home/dzc/Work/bioinfo/libmrf/missing --run autoheader
@@ -142,17 +159,17 @@ OTOOL64 =
 PACKAGE = libmrf
 PACKAGE_BUGREPORT = david.chen@yale.edu
 PACKAGE_NAME = libmrf
-PACKAGE_STRING = libmrf 1.0.0
+PACKAGE_STRING = libmrf 0.7.0
 PACKAGE_TARNAME = libmrf
 PACKAGE_URL = 
-PACKAGE_VERSION = 1.0.0
+PACKAGE_VERSION = 0.7.0
 PATH_SEPARATOR = :
 RANLIB = ranlib
 SED = /bin/sed
 SET_MAKE = 
 SHELL = /bin/bash
 STRIP = strip
-VERSION = 1.0.0
+VERSION = 0.7.0
 abs_builddir = /home/dzc/Work/bioinfo/libmrf/lib
 abs_srcdir = /home/dzc/Work/bioinfo/libmrf/lib
 abs_top_builddir = /home/dzc/Work/bioinfo/libmrf
@@ -283,7 +300,7 @@ clean-libLTLIBRARIES:
 	  rm -f "$${dir}/so_locations"; \
 	done
 libmrf.la: $(libmrf_la_OBJECTS) $(libmrf_la_DEPENDENCIES) 
-	$(LINK) -rpath $(libdir) $(libmrf_la_OBJECTS) $(libmrf_la_LIBADD) $(LIBS)
+	$(AM_V_CCLD)$(LINK) -rpath $(libdir) $(libmrf_la_OBJECTS) $(libmrf_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -297,53 +314,60 @@ include ./$(DEPDIR)/sam.Plo
 include ./$(DEPDIR)/segmentationUtil.Plo
 
 .c.o:
-	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+#	$(AM_V_CC) \
 #	source='$<' object='$@' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(COMPILE) -c $<
 
 .c.obj:
-	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
+#	$(AM_V_CC) \
 #	source='$<' object='$@' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(COMPILE) -c `$(CYGPATH_W) '$<'`
 
 .c.lo:
-	$(LTCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+	$(AM_V_CC)$(LTCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
+	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
+#	$(AM_V_CC) \
 #	source='$<' object='$@' libtool=yes \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(LTCOMPILE) -c -o $@ $<
 
 mrf.lo: mrf/mrf.c
-	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mrf.lo -MD -MP -MF $(DEPDIR)/mrf.Tpo -c -o mrf.lo `test -f 'mrf/mrf.c' || echo '$(srcdir)/'`mrf/mrf.c
-	$(am__mv) $(DEPDIR)/mrf.Tpo $(DEPDIR)/mrf.Plo
+	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mrf.lo -MD -MP -MF $(DEPDIR)/mrf.Tpo -c -o mrf.lo `test -f 'mrf/mrf.c' || echo '$(srcdir)/'`mrf/mrf.c
+	$(AM_V_at)$(am__mv) $(DEPDIR)/mrf.Tpo $(DEPDIR)/mrf.Plo
+#	$(AM_V_CC) \
 #	source='mrf/mrf.c' object='mrf.lo' libtool=yes \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mrf.lo `test -f 'mrf/mrf.c' || echo '$(srcdir)/'`mrf/mrf.c
+#	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mrf.lo `test -f 'mrf/mrf.c' || echo '$(srcdir)/'`mrf/mrf.c
 
 mrfUtil.lo: mrf/mrfUtil.c
-	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mrfUtil.lo -MD -MP -MF $(DEPDIR)/mrfUtil.Tpo -c -o mrfUtil.lo `test -f 'mrf/mrfUtil.c' || echo '$(srcdir)/'`mrf/mrfUtil.c
-	$(am__mv) $(DEPDIR)/mrfUtil.Tpo $(DEPDIR)/mrfUtil.Plo
+	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT mrfUtil.lo -MD -MP -MF $(DEPDIR)/mrfUtil.Tpo -c -o mrfUtil.lo `test -f 'mrf/mrfUtil.c' || echo '$(srcdir)/'`mrf/mrfUtil.c
+	$(AM_V_at)$(am__mv) $(DEPDIR)/mrfUtil.Tpo $(DEPDIR)/mrfUtil.Plo
+#	$(AM_V_CC) \
 #	source='mrf/mrfUtil.c' object='mrfUtil.lo' libtool=yes \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mrfUtil.lo `test -f 'mrf/mrfUtil.c' || echo '$(srcdir)/'`mrf/mrfUtil.c
+#	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o mrfUtil.lo `test -f 'mrf/mrfUtil.c' || echo '$(srcdir)/'`mrf/mrfUtil.c
 
 sam.lo: mrf/sam.c
-	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT sam.lo -MD -MP -MF $(DEPDIR)/sam.Tpo -c -o sam.lo `test -f 'mrf/sam.c' || echo '$(srcdir)/'`mrf/sam.c
-	$(am__mv) $(DEPDIR)/sam.Tpo $(DEPDIR)/sam.Plo
+	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT sam.lo -MD -MP -MF $(DEPDIR)/sam.Tpo -c -o sam.lo `test -f 'mrf/sam.c' || echo '$(srcdir)/'`mrf/sam.c
+	$(AM_V_at)$(am__mv) $(DEPDIR)/sam.Tpo $(DEPDIR)/sam.Plo
+#	$(AM_V_CC) \
 #	source='mrf/sam.c' object='sam.lo' libtool=yes \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o sam.lo `test -f 'mrf/sam.c' || echo '$(srcdir)/'`mrf/sam.c
+#	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o sam.lo `test -f 'mrf/sam.c' || echo '$(srcdir)/'`mrf/sam.c
 
 segmentationUtil.lo: mrf/segmentationUtil.c
-	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT segmentationUtil.lo -MD -MP -MF $(DEPDIR)/segmentationUtil.Tpo -c -o segmentationUtil.lo `test -f 'mrf/segmentationUtil.c' || echo '$(srcdir)/'`mrf/segmentationUtil.c
-	$(am__mv) $(DEPDIR)/segmentationUtil.Tpo $(DEPDIR)/segmentationUtil.Plo
+	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT segmentationUtil.lo -MD -MP -MF $(DEPDIR)/segmentationUtil.Tpo -c -o segmentationUtil.lo `test -f 'mrf/segmentationUtil.c' || echo '$(srcdir)/'`mrf/segmentationUtil.c
+	$(AM_V_at)$(am__mv) $(DEPDIR)/segmentationUtil.Tpo $(DEPDIR)/segmentationUtil.Plo
+#	$(AM_V_CC) \
 #	source='mrf/segmentationUtil.c' object='segmentationUtil.lo' libtool=yes \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
-#	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o segmentationUtil.lo `test -f 'mrf/segmentationUtil.c' || echo '$(srcdir)/'`mrf/segmentationUtil.c
+#	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o segmentationUtil.lo `test -f 'mrf/segmentationUtil.c' || echo '$(srcdir)/'`mrf/segmentationUtil.c
 
 mostlyclean-libtool:
 	-rm -f *.lo
