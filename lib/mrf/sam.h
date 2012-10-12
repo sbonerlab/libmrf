@@ -1,6 +1,7 @@
 #ifndef DEF_SAM_H
 #define DEF_SAM_H
 
+#include "mrf.h"
 
 
 /**
@@ -51,6 +52,14 @@ typedef struct {
 extern int sortSamEntriesByQname (SamEntry *a, SamEntry *b);
 extern Stringa genCigar (MrfRead *read);
 extern void destroySamEArray (Array a);
+
+extern void samParser_initFromFile (char* fileName);
+extern void samParser_initFromPipe (char* command);
+extern void samParser_deInit (void);
+extern void samParser_copyEntry (SamEntry **dest, SamEntry *orig);
+extern void samParser_freeEntry (SamEntry *currEntry);
+extern SamEntry* samParser_nextEntry (void);
+extern Array  samParser_getAllEntries ();
 
 
 
