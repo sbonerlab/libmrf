@@ -59,6 +59,7 @@ extern void samParser_deInit (void);
 extern void samParser_copyEntry (SamEntry **dest, SamEntry *orig);
 extern void samParser_freeEntry (SamEntry *currEntry);
 extern SamEntry* samParser_nextEntry (void);
+extern char* samParser_writeEntry( SamEntry* currSamEntry);
 extern Array  samParser_getAllEntries ();
 
 
