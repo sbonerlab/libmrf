@@ -121,6 +121,7 @@ void samParser_freeEntry (SamEntry *currSamEntry)
  */
 void samParser_copyEntry (SamEntry **dest, SamEntry *orig) 
 {
+  if( *dest ) freeMem(*dest);
   AllocVar (*dest); 
   (*dest)->qname = hlr_strdup(orig->qname);
   (*dest)->flags = orig->flags;
@@ -145,6 +146,11 @@ int isMateUnmapped( SamEntry* samE )
     return 0;
 }
 
+/**
+ * Check if it is a valid Sam line.
+ * @pre The module has been initialized using samParser_init().
+ * @res 0 if not valid, otherwise 1.
+ */
 int isPaired( SamEntry* samE )
 {
   if( samE->flags & S_READ_PAIRED )  
@@ -153,6 +159,11 @@ int isPaired( SamEntry* samE )
     return 0;
 }
 
+/**
+ * Check if it is a valid Sam line.
+ * @pre The module has been initialized using samParser_init().
+ * @res 0 if not valid, otherwise 1.
+ */
 int isValidSamLine( Texta tokens ) {
   if (arrayMax (tokens) < 11) {
     textDestroy( tokens );
@@ -161,19 +172,19 @@ int isValidSamLine( Texta tokens ) {
 }
 
 
+
+
 static void samParser_processLine (char* line, SamEntry* currSamEntry) 
 {
   Texta tokens = NULL;
   int j;
   int hasQual = 0;
   int hasSeqs = 0;
-
-
   tokens = textFieldtokP (line, "\t");
-    if( isValidSamLine( tokens ) != 1 ) {
-	  ls_destroy (ls);
-	  die ("Invalid SAM entry: %s", line);
-    }
+  if( isValidSamLine( tokens ) != 1 ) {
+    ls_destroy (ls);
+    die ("Invalid SAM entry: %s", line);
+  }
  
   currSamEntry->qname = hlr_strdup(textItem(tokens, 0));
   currSamEntry->flags = atoi(textItem(tokens, 1));
@@ -207,14 +218,15 @@ static void samParser_processLine (char* line, SamEntry* currSamEntry)
     hasQual = 1;
     currSamEntry->qual = hlr_strdup (textItem (tokens, 10));
   } 
+  textDestroy( tokens );
 }
 
 
 static SamEntry* samParser_processNextEntry (int freeMemory)
 {
   char *line,*pos;
-  static char *queryName = NULL;
-  static char *prevSamEntryName = NULL;
+  //char *queryName = NULL;
+  //char *prevSamEntryName = NULL;
   static SamEntry *currSamEntry = NULL;
 
   if (!ls_isEof (ls)) {
@@ -239,14 +251,38 @@ static SamEntry* samParser_processNextEntry (int freeMemory)
   return NULL;  
 }
 
-
+/**
+ * Read next SAM entry
+ * @pre *dest
+ * @post Use samParser_freeEntry to de-allocate the memory
+ */
 SamEntry* samParser_nextEntry (void)
 {
   return samParser_processNextEntry (1);
 }
 
-
-
+/**
+ * Writes a SamEntry.
+ * @pre The module has been initialized using samParser_init().
+ */
+char* samParser_writeEntry( SamEntry* currSamEntry) {
+  static Stringa buffer = NULL;
+  stringCreateClear (buffer,200);
+  stringAppendf(buffer, "%s\t%d\t%s\t%d\t%d\t%s\t%s\t%d\t%d\t%s\t%s\t%s", 
+		currSamEntry->qname,
+		currSamEntry->flags,
+		currSamEntry->rname,
+		currSamEntry->pos,
+		currSamEntry->mapq,
+		currSamEntry->cigar,
+		currSamEntry->mrnm,
+		currSamEntry->mpos,
+		currSamEntry->isize,
+		currSamEntry->seq,
+		currSamEntry->qual,
+		currSamEntry->tags);
+  return string (buffer);
+}
 /**
  * Returns an Array of SamEntries.
  * @note The memory belongs to this routine.
