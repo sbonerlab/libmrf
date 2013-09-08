@@ -4,21 +4,16 @@
 
 #include "sam.h"
 
-
-
 /** 
  *   \file sam.c SAM utilities.
  */
 
 static LineStream ls = NULL;
 
-
 int sortSamEntriesByQname (SamEntry *a, SamEntry *b)
 {
   return strcmp (a->qname, b->qname);
 }
-
-
 
 Stringa genCigar (MrfRead *read)
 {
@@ -35,8 +30,6 @@ Stringa genCigar (MrfRead *read)
   }
   return cigar;
 }
-
-
 
 void destroySamEArray (Array a)
 {
@@ -57,9 +50,6 @@ void destroySamEArray (Array a)
   arrayDestroy (a);
 }
 
-
-
-
 /**
  * Initialize the SAM module from file.
  * @param[in] fileName File name, use "-" to denote stdin
@@ -69,8 +59,6 @@ void samParser_initFromFile (char *fileName)
   ls = ls_createFromFile (fileName);
   ls_bufferSet (ls,1);
 }
-
-
 
 /**
  * Initialize the samParser module from pipe.
@@ -82,8 +70,6 @@ void samParser_initFromPipe (char *command)
   ls_bufferSet (ls,1);
 }
 
-
-
 /**
  * Deinitialize the samParser module.
  */
@@ -91,8 +77,6 @@ void samParser_deInit (void)
 {
   ls_destroy (ls);
 }
-
-
 
 /**
  * Deinitialize the SamEntry.
@@ -137,7 +121,6 @@ void samParser_copyEntry (SamEntry **dest, SamEntry *orig)
   (*dest)->tags  = orig->tags != NULL ? hlr_strdup(orig->tags) : NULL;
 }
 
-
 int isMateUnmapped( SamEntry* samE ) 
 {
   if( samE->flags & S_MATE_UNMAPPED )
@@ -170,9 +153,6 @@ int isValidSamLine( Texta tokens ) {
     return 0;
   } else return 1;
 }
-
-
-
 
 static void samParser_processLine (char* line, SamEntry* currSamEntry) 
 {
@@ -283,6 +263,7 @@ char* samParser_writeEntry( SamEntry* currSamEntry) {
 		currSamEntry->tags);
   return string (buffer);
 }
+
 /**
  * Returns an Array of SamEntries.
  * @note The memory belongs to this routine.
@@ -299,7 +280,6 @@ Array samParser_getAllEntries ()
   }
   return samQueries;
 }
-
 
 /**
  * Returns a pointer to next SamEntry. 
