@@ -1,9 +1,8 @@
 EXTRA_DIST = m4
 ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
 AM_MAKEFLAGS = --no-print-directory
-
-AM_CPPFLAGS = \
-	-I${top_srcdir}
+AM_CFLAGS = -std=c99
+AM_CPPFLAGS = -I${top_srcdir}
 
 PC_SED = \
 	$(AM_V_GEN)$(MKDIR_P) $(dir $@) && $(SED) \

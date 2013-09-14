@@ -25,6 +25,24 @@
 #define S_FAILS_CHECKS    0x0200  // Read fails platform/vendor checks
 #define S_DUPLICATE       0x0400  // Read is PCR or optical duplicate
 
+typedef enum {
+  kCigarAlignmentMatch,   // Alignment match
+  kCigarInsertion,        // Insertion into the reference
+  kCigarDeletion,         // Deletion from the reference
+  kCigarSkipRegion,       // Skipped region from the reference
+  kCigarSoftClip,         // Soft clipping
+  kCigarHardClip,         // Hard clipping
+  kCigarPadding,          // Padding
+  kCigarSequenceMatch,    // Sequence match
+  kCigarSequenceMismatch, // Sequence mismatch
+  kCigarInvalid
+} CigarType;
+
+typedef struct {
+  CigarType type;
+  int length;
+} CigarOperation;
+
 /**
  * SamEntry.
  */
@@ -43,17 +61,18 @@ typedef struct {
   char *tags;         // Optional tags (actually list, but as string for now)
 } SamEntry;
 
-extern int sortSamEntriesByQname (SamEntry *a, SamEntry *b);
-extern Stringa genCigar (MrfRead *read);
-extern void destroySamEArray (Array a);
+int sortSamEntriesByQname (SamEntry *a, SamEntry *b);
+Stringa genCigar (MrfRead *read);
+void destroySamEArray (Array a);
 
-extern void samParser_initFromFile (char* fileName);
-extern void samParser_initFromPipe (char* command);
-extern void samParser_deInit (void);
-extern void samParser_copyEntry (SamEntry **dest, SamEntry *orig);
-extern void samParser_freeEntry (SamEntry *currEntry);
-extern SamEntry* samParser_nextEntry (void);
-extern char* samParser_writeEntry( SamEntry* currSamEntry);
-extern Array  samParser_getAllEntries ();
+void samParser_initFromFile(char* fileName);
+void samParser_initFromPipe(char* command);
+void samParser_deInit(void);
+void samParser_copyEntry(SamEntry **dest, SamEntry *orig);
+void samParser_freeEntry(SamEntry *currEntry);
+SamEntry* samParser_nextEntry(void);
+char* samParser_writeEntry(SamEntry* currSamEntry);
+Array samParser_getAllEntries();
+Array samParser_getCigar(char* cigar_string);
 
 #endif /* DEF_SAM_H */

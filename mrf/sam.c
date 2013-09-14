@@ -1,4 +1,5 @@
 #include <bios/format.h>
+#include <bios/log.h>
 #include <bios/linestream.h>
 #include <bios/common.h>
 
@@ -320,3 +321,49 @@ HWUSI-EAS519_1:5:104:8269:13558	97	chr1	4270	33	54M	=	4587	371	CTGCTCAGTTCTTTATT
 
    \endverbatim
  */
+
+static inline CigarType samParser_getCigarType(char c) {
+  switch (c) {
+  case 'M': 
+    return kCigarAlignmentMatch;
+  case 'I': 
+    return kCigarInsertion;
+  case 'D': 
+    return kCigarDeletion;
+  case 'N': 
+    return kCigarSkipRegion;
+  case 'S': 
+    return kCigarSoftClip;
+  case 'H':
+    return kCigarHardClip;
+  case 'P':
+    return kCigarPadding;
+  case '=':
+    return kCigarSequenceMatch;
+  case 'X':
+    return kCigarSequenceMismatch;
+  default:
+    return kCigarInvalid;
+  }
+}
+
+Array samParser_getCigar(char* cigar_string) {
+  Array cigar_operations = arrayCreate(5, CigarOperation);
+  Texta tokens = textFieldtokP(cigar_string, "MNSDIP");
+  size_t j = 0;
+  for (int i = 0; i < arrayMax(tokens) - 1; ++i) {
+    while (isdigit(cigar_string[j]) && cigar_string[j] != '\0') {
+      ++j;
+    }
+    CigarType type = samParser_getCigarType(cigar_string[j]);
+    CigarOperation operation;
+    operation.type = type;
+    operation.length = atoi(textItem(tokens, i));
+    array(cigar_operations, arrayMax(cigar_operations), CigarOperation) =
+        operation;
+    if (cigar_string[j] != '\0') {
+      ++j;
+    }
+  }
+  return cigar_operations;
+}
