@@ -26,15 +26,15 @@
 #define S_DUPLICATE       0x0400  // Read is PCR or optical duplicate
 
 typedef enum {
-  kCigarAlignmentMatch,   // Alignment match
-  kCigarInsertion,        // Insertion into the reference
-  kCigarDeletion,         // Deletion from the reference
-  kCigarSkipRegion,       // Skipped region from the reference
-  kCigarSoftClip,         // Soft clipping
-  kCigarHardClip,         // Hard clipping
-  kCigarPadding,          // Padding
-  kCigarSequenceMatch,    // Sequence match
-  kCigarSequenceMismatch, // Sequence mismatch
+  kCigarAlignmentMatch,   // M: Alignment match
+  kCigarInsertion,        // I: Insertion into the reference
+  kCigarDeletion,         // D: Deletion from the reference
+  kCigarSkippedRegion,    // N: Skipped region from the reference
+  kCigarSoftClipping,     // S: Soft clipping
+  kCigarHardClipping,     // H: Hard clipping
+  kCigarPadding,          // P: Padding
+  kCigarSequenceMatch,    // =: Sequence match
+  kCigarSequenceMismatch, // X: Sequence mismatch
   kCigarInvalid
 } CigarType;
 

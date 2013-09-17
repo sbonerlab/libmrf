@@ -331,11 +331,11 @@ static inline CigarType samParser_getCigarType(char c) {
   case 'D': 
     return kCigarDeletion;
   case 'N': 
-    return kCigarSkipRegion;
+    return kCigarSkippedRegion;
   case 'S': 
-    return kCigarSoftClip;
+    return kCigarSoftClipping;
   case 'H':
-    return kCigarHardClip;
+    return kCigarHardClipping;
   case 'P':
     return kCigarPadding;
   case '=':
