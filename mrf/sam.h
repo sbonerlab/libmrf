@@ -25,6 +25,9 @@
 #define S_FAILS_CHECKS    0x0200  // Read fails platform/vendor checks
 #define S_DUPLICATE       0x0400  // Read is PCR or optical duplicate
 
+#define R_FIRST  0
+#define R_SECOND 1
+
 typedef enum {
   kCigarAlignmentMatch,   // M: Alignment match
   kCigarInsertion,        // I: Insertion into the reference
