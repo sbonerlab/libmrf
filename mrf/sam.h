@@ -1,11 +1,15 @@
+/// @file sam.c
+/// @version 0.8.0
+/// @since 19 Sep 2013
+///
+/// @section DESCRIPTION
+///
+/// Parser for SAM files.
+
 #ifndef DEF_SAM_H
 #define DEF_SAM_H
 
 #include "mrf.h"
-
-/**
- *   \file sam.h
- */
 
 // Bitwise flags for FLAGS field in SAM entry
 // Notes:
@@ -41,14 +45,15 @@ typedef enum {
   kCigarInvalid
 } CigarType;
 
+/// @struct CigarOperation
+/// @brief Structure representing a single CIGAR operation
 typedef struct {
   CigarType type;
   int length;
 } CigarOperation;
 
-/**
- * SamEntry.
- */
+/// @struct SamEntry
+/// @brief Structure representing a SAM entry.
 typedef struct {
   char *qname;        // Query name
   int flags;          // Bitwise FLAGS field
@@ -64,9 +69,9 @@ typedef struct {
   char *tags;         // Optional tags (actually list, but as string for now)
 } SamEntry;
 
-int sortSamEntriesByQname (SamEntry *a, SamEntry *b);
-Stringa genCigar (MrfRead *read);
-void destroySamEArray (Array a);
+int sortSamEntriesByQname(SamEntry *a, SamEntry *b);
+Stringa genCigar(MrfRead *read);
+void destroySamEArray(Array a);
 
 void samParser_initFromFile(char* fileName);
 void samParser_initFromPipe(char* command);

@@ -1,13 +1,17 @@
+/// @file sam.c
+/// @version 0.8.0
+/// @since 19 Sep 2013
+///
+/// @section DESCRIPTION
+///
+/// Parser for SAM files.
+
 #include <bios/format.h>
 #include <bios/log.h>
 #include <bios/linestream.h>
 #include <bios/common.h>
 
 #include "sam.h"
-
-/** 
- *   \file sam.c SAM utilities.
- */
 
 static LineStream ls = NULL;
 

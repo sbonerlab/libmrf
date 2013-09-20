@@ -1,18 +1,18 @@
+/// @file segmentationUtil.c
+/// @version 0.8.0
+/// @since 19 Aug 2013
+///
+/// @section DESCRIPTION
+///
+/// Segmentation utilities.
+
 #include <bios/log.h>
 #include <bios/format.h>
 
 #include "segmentationUtil.h"
 
-
-
-/**
- *   \file segmentationUtil.c Segmentation utilities.
- */
-
-
-
-void performSegmentation (Array tars, Array wigs, char* targetName, double threshold, int maxGap, int minRun)
-{
+void performSegmentation(Array tars, Array wigs, char* targetName, 
+                         double threshold, int maxGap, int minRun) {
   Tar *currTar;
   Wig *currWig,*nextWig;
   int i,j,endPosition;

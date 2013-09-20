@@ -1,3 +1,11 @@
+/// @file mrf.c
+/// @version 0.8.0
+/// @since 19 Sep 2013
+///
+/// @section DESCRIPTION
+///
+/// Parser for mapped read format files.
+
 #include <bios/log.h>
 #include <bios/format.h>
 #include <bios/linestream.h>
@@ -6,18 +14,8 @@
 
 #include "mrf.h"
 
-
-
-/** 
- *   \file mrf.c Module to parse mapped read format
- */
-
-
-
 #define INIT_MODE_FROM_FILE 1
 #define INIT_MODE_FROM_PIPE 2
-
-
 
 static LineStream lsMrf = NULL;
 static Bits *presentColumnTypes = NULL;
@@ -25,8 +23,6 @@ static Array columnTypes = NULL;
 static Texta columnHeaders = NULL;
 static Texta comments = NULL;
 static char *headerLine = NULL;
-
-
 
 static void mrf_addColumnType (char *type)
 {
@@ -54,8 +50,6 @@ static void mrf_addColumnType (char *type)
     die ("Unknown presentColumn: %s",type);
   }
 }
-
-
 
 static void mrf_doInit (char *arg, int initMode) 
 {
@@ -93,8 +87,6 @@ static void mrf_doInit (char *arg, int initMode)
   }
 }
 
-
-
 /**
  * Initialize the module module from a file.
  * @param[in] fileName File name, use "-" to denote stdin
@@ -104,8 +96,6 @@ void mrf_init (char *fileName)
   mrf_doInit (fileName,INIT_MODE_FROM_FILE);
 }
 
-
-
 /**
  * Initialize the module from a command.
  * @param[in] cmd command to be executed
@@ -114,8 +104,6 @@ void mrf_initFromPipe (char *cmd)
 {
   mrf_doInit (cmd,INIT_MODE_FROM_PIPE);
 }
-
-
 
 /**
  * Add a new column type. 
@@ -137,8 +125,6 @@ void mrf_addNewColumnType (char* columnName)
   }
 }
 
-
-
 /**
  * Deinitialize the mrf module.
  */
@@ -151,8 +137,6 @@ void mrf_deInit (void)
   textDestroy (comments);
   hlr_free (headerLine);
 }
-
-
 
 static void mrf_freeReadAttributes (MrfRead *currRead)
 {
@@ -175,8 +159,6 @@ static void mrf_freeReadAttributes (MrfRead *currRead)
   }
 }
 
-
-
 static void mrf_freeEntry (MrfEntry* currEntry) 
 {
   if (currEntry == NULL) {
@@ -188,8 +170,6 @@ static void mrf_freeEntry (MrfEntry* currEntry)
   }
   freeMem (currEntry);
 }
-
-
 
 static void mrf_processBlocks (char *blockString, MrfRead *currRead)
 {
@@ -212,8 +192,6 @@ static void mrf_processBlocks (char *blockString, MrfRead *currRead)
   }
   textDestroy (blocks);
 }
-
-
 
 static MrfEntry* mrf_processNextEntry (int freeMemory) 
 {
@@ -303,8 +281,6 @@ static MrfEntry* mrf_processNextEntry (int freeMemory)
   return currEntry;
 }
 
-
-
 /**
  * Returns a pointer to next MrfEntry. 
  * @pre The module has been initialized using mrf_init().
@@ -313,8 +289,6 @@ MrfEntry* mrf_nextEntry (void)
 {
   return mrf_processNextEntry (1); 
 }
-
-
 
 /**
  * Returns an Array of MrfEntries.
@@ -332,8 +306,6 @@ Array mrf_parse (void)
   }
   return mrfEntries;
 }
-
-
 
 static void mrf_addTab (Stringa buffer, int *first) 
 {
@@ -361,7 +333,6 @@ int getReadLength (MrfRead *currRead)
   return sum;
 }
 
-
 /**
  * Write the mrf header preceeded by comments, if any. 
  * @pre The module has been initialized using mrf_init().
@@ -382,8 +353,6 @@ char* mrf_writeHeader (void)
   return string (buffer);
 }
 
-
-
 static void mrf_writeBlocks (Stringa buffer, Array blocks)
 {
   MrfBlock *currBlock;
@@ -397,8 +366,6 @@ static void mrf_writeBlocks (Stringa buffer, Array blocks)
                    i < arrayMax (blocks) - 1 ? "," : "");
   }
 }
-
-
 
 /**
  * Write an MrfEntry. 
@@ -457,4 +424,3 @@ char* mrf_writeEntry (MrfEntry *currEntry)
   return string (buffer);
 }
 
-   

@@ -1,19 +1,18 @@
+/// @file mrfUtil.c 
+/// @version 0.8.0
+/// @since 19 Aug 2013
+///
+/// @section DESCRIPTION
+///
+/// MRF utilities
+
 #include <bios/format.h>
 #include <bios/log.h>
 #include <bios/linestream.h>
 
 #include "mrfUtil.h"
 
-
-
-/** 
- *   \file mrfUtil.c MRF utilities
- */
-
-
-
-Array readTarsFromBedFile (char *fileName)
-{
+Array readTarsFromBedFile (char *fileName) {
   Array tars;
   Tar *currTar;
   LineStream ls;
