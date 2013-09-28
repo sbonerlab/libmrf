@@ -6,8 +6,8 @@
 ///
 /// Parser for SAM files.
 
-#ifndef DEF_SAM_H
-#define DEF_SAM_H
+#ifndef MRF_SAM_H__
+#define MRF_SAM_H__
 
 #include "mrf.h"
 
@@ -61,6 +61,7 @@ typedef struct {
   int pos;            // 1-based leftmost position/coordinate of clipped seq.
   int mapq;           // Mapping quality
   char *cigar;        // Extended CIGAR string
+  Array cigar_ops;    // Cigar operations parsed from cigar.
   char *mrnm;         // Mate reference sequence name ("=" if same as rname)
   int mpos;           // 1-based leftmost mate position of clipped sequence
   int isize;          // Inferred insert size
@@ -69,18 +70,24 @@ typedef struct {
   char *tags;         // Optional tags (actually list, but as string for now)
 } SamEntry;
 
-int sortSamEntriesByQname(SamEntry *a, SamEntry *b);
-Stringa genCigar(MrfRead *read);
-void destroySamEArray(Array a);
+typedef struct {
+  LineStream ls;
+} SamParser;
 
-void samParser_initFromFile(char* fileName);
-void samParser_initFromPipe(char* command);
-void samParser_deInit(void);
-void samParser_copyEntry(SamEntry **dest, SamEntry *orig);
-void samParser_freeEntry(SamEntry *currEntry);
-SamEntry* samParser_nextEntry(void);
-char* samParser_writeEntry(SamEntry* currSamEntry);
-Array samParser_getAllEntries();
-Array samParser_getCigar(char* cigar_string);
+int samentry_compare_by_qname(SamEntry *a, SamEntry *b);
+bool samentry_is_mate_unmapped(SamEntry* self);
+bool samentry_is_paired(SamEntry* self);
+void samentry_copy(SamEntry** dest, SamEntry* orig);
+char* samentry_to_string(SamEntry* self);
+void samentry_free(SamEntry* self);
+SamEntry* samentry_new(void);
 
-#endif /* DEF_SAM_H */
+SamParser* samparser_from_file(char* filename);
+SamParser* samparser_from_pipe(char* command);
+void samparser_free(SamParser* self);
+SamEntry* samparser_next_entry(SamParser* self);
+Array samparser_get_all_entries(SamParser* self);
+Array samparser_parse_cigar(char* cigar_string);
+Stringa samparser_mrfread_to_cigar(MrfRead *read);
+
+#endif /* MRF_SAM_H__ */
