@@ -9,6 +9,10 @@
 #ifndef MRF_SAM_H__
 #define MRF_SAM_H__
 
+#include <stdbool.h>
+
+#include <bios/linestream.h>
+
 #include "mrf.h"
 
 // Bitwise flags for FLAGS field in SAM entry

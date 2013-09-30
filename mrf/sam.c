@@ -83,6 +83,18 @@ char* samentry_to_string(SamEntry* self) {
   return string(buffer);
 }
 
+bool samentry_same_name(SamEntry* query, SamEntry* mate, char delim) {
+  char* pos = strchr(query->qname, delim);
+  if (*pos != '\0') {
+    *pos='\0';
+  }
+  pos = strchr(mate->qname, delim);
+  if (*pos != '\0') {
+    *pos='\0';
+  }
+  return strcmp(query->qname, mate->qname) == 0;
+}
+
 SamEntry* samentry_new(void) {
   SamEntry* entry = (SamEntry*) malloc(sizeof(*entry));
   if (entry == NULL) {
