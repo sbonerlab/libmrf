@@ -33,3 +33,6 @@ nobase_dist_include_HEADERS = \
     mrf/mrfUtil.h \
     mrf/sam.h \
     mrf/segmentationUtil.h
+
+debug:
+	$(MAKE) "CFLAGS=-g -DDEBUG " all $(AM_MAKEFILE)
