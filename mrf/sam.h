@@ -76,15 +76,20 @@ typedef struct {
 
 typedef struct {
   LineStream ls;
+  Array comments;
 } SamParser;
 
 int samentry_compare_by_qname(SamEntry *a, SamEntry *b);
 bool samentry_is_mate_unmapped(SamEntry* self);
 bool samentry_is_paired(SamEntry* self);
+bool samentry_valid_line(SamEntry* self);
+bool samentry_same_name(SamEntry* query, SamEntry* mate, char delim);
 void samentry_copy(SamEntry** dest, SamEntry* orig);
 char* samentry_to_string(SamEntry* self);
 void samentry_free(SamEntry* self);
 SamEntry* samentry_new(void);
+bool samentry_is_valid( SamEntry* entry );
+
 
 SamParser* samparser_from_file(char* filename);
 SamParser* samparser_from_pipe(char* command);
@@ -93,5 +98,7 @@ SamEntry* samparser_next_entry(SamParser* self);
 Array samparser_get_all_entries(SamParser* self);
 Array samparser_parse_cigar(char* cigar_string);
 Stringa samparser_mrfread_to_cigar(MrfRead *read);
+Array samparser_get_comments( SamParser* self);
+void samparser_back(SamParser* parser, int lineCounts);
 
 #endif /* MRF_SAM_H__ */

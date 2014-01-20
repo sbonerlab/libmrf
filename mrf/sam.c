@@ -17,7 +17,7 @@
 
 #include "sam.h"
 
-static LineStream ls = NULL;
+//static LineStream ls = NULL;
 
 int samentry_compare_by_qname(SamEntry *a, SamEntry *b) {
   return strcmp(a->qname, b->qname);
@@ -330,7 +330,7 @@ static void samparser_process_line(SamParser* self, char* line,
  */
 static SamEntry* samparser_process_next_entry(SamParser* self, bool free_memory) {
   static SamEntry *current_entry = NULL;
-  if (!ls_isEof (ls)) {
+  if (!ls_isEof (self->ls)) {
     if (free_memory) {
       samentry_free(current_entry);
       current_entry = NULL;
@@ -339,6 +339,9 @@ static SamEntry* samparser_process_next_entry(SamParser* self, bool free_memory)
     char* line = NULL;
     while (line = ls_nextLine(self->ls)) {
       if (line[0] == '@') {
+	if ( self->comments == NULL ) 
+	  self->comments = arrayCreate( 100, Stringa);
+	array( self->comments, arrayMax(self->comments), char*)=hlr_strdup( line );
         continue;
       }
       samparser_process_line(self, line, current_entry); 
@@ -374,3 +377,27 @@ Array samparser_get_all_entries(SamParser* parser) {
   }
   return samQueries;
 }
+
+
+
+/**
+ * Return the comments of the SAM file
+ * @pre *src
+ */
+Array samparser_get_comments( SamParser* parser ) {
+  return ( parser->comments );
+}
+
+
+void samparser_back(SamParser* parser, int lineCounts) {
+  ls_back( parser->ls, lineCounts);
+}
+
+/**
+ * Checking if the SAM entry is valid, i.e. mapped and a primary alignment
+ * @pre *src
+ */
+bool samentry_is_valid( SamEntry* entry ) {
+  return (  !(entry->flags & S_QUERY_UNMAPPED) && !(entry->flags & S_NOT_PRIMARY) );
+}
+
