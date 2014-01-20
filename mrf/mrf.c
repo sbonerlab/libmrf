@@ -85,6 +85,7 @@ static void mrf_doInit (char *arg, int initMode)
   for (i = 0; i < arrayMax (tokens); i++) {
     mrf_addColumnType (textItem (tokens,i));
   }
+  textDestroy( tokens );
 }
 
 /**
