@@ -6,6 +6,7 @@
 
 mrf/.deps
 .libs/
+libmrf.*
 
 Makefile
 Makefile.in
@@ -22,3 +23,9 @@ config.status
 mrf.pc
 .dirstamp
 stamp-h1
+
+include/
+build-aux/
+
+.fuse*
+.nfs*
