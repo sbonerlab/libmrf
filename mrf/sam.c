@@ -173,6 +173,7 @@ Array samparser_parse_cigar(char* cigar_string) {
       ++j;
     }
   }
+  textDestroy( tokens );
   return cigar_operations;
 }
 
@@ -201,6 +202,7 @@ SamParser* samparser_from_file(char* filename) {
   }
   parser->ls = ls_createFromFile(filename);
   ls_bufferSet(parser->ls, 1);
+  parser->comments = NULL;
   return parser;
 }
 
@@ -215,6 +217,7 @@ SamParser* samparser_from_pipe(char* command) {
   }
   parser->ls = ls_createFromPipe(command);
   ls_bufferSet(parser->ls, 1);
+  parser->comments = NULL;
   return parser;
 }
 
@@ -223,6 +226,8 @@ SamParser* samparser_from_pipe(char* command) {
  */
 void samparser_free(SamParser* self) {
   ls_destroy(self->ls);
+  if( self->comments != NULL ) 
+    arrayDestroy( self->comments );
   free(self);
 }
 
